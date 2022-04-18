@@ -7,9 +7,10 @@
 #' @param knowledge object of S3 class 'wordle_knowledge'
 #' @return numeric, vector of numbers of guesses needed (or NA if not guessed in 6 or less tries)
 #' @export
-distr_wordle <- function(n, knowledge) {
-	
-	ans <- replicate(n, sim_wordle(knowledge, verbose=FALSE))
+distr_wordle <- function(n, knowledge, ...) {
+	dots <- list(...)
+	dots[["knowledge"]] <- knowledge
+	ans <- replicate(n, do.call(sim_wordle, dots))
 	# ans <- table(ans, useNA="always")
 	return(ans)
 }

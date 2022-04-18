@@ -101,10 +101,29 @@ kn <- learn(kn, "above", "fptft")
 # 1 fits: globe
 ```
 
+The parameter `fitting_only` is only evaluated in rounds 2 to 5. If it is not explicitly set, then a heuristic is applied: if there are less than 100 permissible words, non-striked candidates are also included in the consideration, otherwise not.
 
+## Evaluating Strategies By Simulations
 
+The most fun is the search for an algorithm that quickly and reliably finds a solution to the puzzles. In my search for a strategy, I came up with four approaches:
 
+- *Probability*: Take the words currently allowed and determine which letter/position combinations occur particularly frequently. Then find a word that best fits this probability distribution.
+- *Contrasts*: Take the currently permissible words and form all two-way combinations from them. For each combination of two, determine the letters that appear in only one of the two words. These so-called contrast letters are good for separating the two words. Now find a word that contains as many contrast letters as possible.
+- *Answer entropy*: For one word $w$ and the currently allowed words, determine the answer that Wordle would return. These answers form a probability distribution on the space of possible return values, given the word $w$. Calculate the entropy of these distributions for each admissible word $w$ and take the word with the highest entropy.
+- *Full entropy*: For each word $w$ and the currently admissible words, determine the answer that Wordle would return. Now additionally determine the allowed words for each possible Wordle pattern. These two pieces of information, frequency of the answer pattern and admissible words, form a probability distribution on the Cartesian product of the answer patterns and the admissible words, given the word $w$. Calculate the entropy of these distributions for each admissible word $w$ and take the word with the highest entropy.
 
+As can be seen: the strategy can become arbitrarily complicated. Unfortunately, so can the computational time: the above approaches would take -- for my patience and the computational power available to me -- too long. Therefore, I limited the number of allowed words to a maximum of 50 (parameter `sample_size` in `suggest_guess`.). 
 
+To see how good the strategies are, there are some help functions in the package. With `sim_wordle` a game is simulated. With `distr_wordle` several games are simulated. The function `compare_methods` calls `distr_wordle` for the above methods and returns the result as `data.frame`.
 
+Here is the result of 200 simulations for each method except 'full_entropy', which takes too long.
 
+|method        | n_runs| duration| avg_guess| fails|
+|:-------------|------:|--------:|---------:|-----:|
+|prob          |    200|    53.87|  4.431818|    24|
+|contrasts     |    200|    88.15|  4.699422|    27|
+|reply_entropy |    200|    66.68|  4.469613|    19|
+
+In my opinion there is much room for improvement. Unfortunately, I no longer have the time.
+
+To invent your own strategies, you need to fork the repository and change the function `suggest_guess`.

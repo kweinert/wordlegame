@@ -18,7 +18,7 @@
 #' @export
 suggest_guess <- function(
 	knowledge, num_guess, n=1, fitting_only=NA,
-	method=c("prob", "entropy", "contrasts", "reductions"),
+	method=c("prob", "full_entropy", "contrasts", "reductions"),
 	sample_size=500, 
 	with_scores=FALSE,
 	verbose=TRUE) {
@@ -62,15 +62,21 @@ suggest_guess <- function(
 	if(length(allowed)==1) return(allowed) # solution found
 
 	# candidates for the solution: only single letters, only fitting
-	cand <- if(is.na(fitting_only)) 
-		if(num_guess==5 || length(allowed)>100) {
-			if(verbose) message("  using only fitting words as candidates.")
-			allowed
+	cand <- if(is.na(fitting_only)) {
+		if(n_allowed>50) {
+			ans <- intersect(
+				knowledge$fitting_only, 
+				sample(knowledge$single_only, round(n_allowed/2))
+			)
+			if(length(ans)>=sample_size) {
+				if(verbose) message("  using only fitting words with single letters only.")
+				ans
+			} else knowledge$fitting_only
 		} else {
-			if(verbose) message("  using all single-lettered words as candidates.")
-			knowledge$single_only
+			if(verbose) message("  using mix fitting / single-lettered words as candidates.")
+			c(allowed, sample(knowledge$single_only, round(n_allowed/2)))
 		}
-	else if(!fitting_only)
+	} else if(!fitting_only)
 		knowledge$single_only
 	else
 		allowed
@@ -82,28 +88,36 @@ suggest_guess <- function(
 		prob <- colSums(embed_wordlist(allowed))
 		scores <- knowledge$wl_num[cand,] %*% prob
 		scores <- setNames(as.vector(scores), rownames(scores))	
-	} else if(method=="reductions") {
-		# average reduction
-		estimate_reduction <- function(w, cand, kn) {
-			patterns <- sapply(cand, function(chosen) reply(guess=w, ans=chosen))
-			one_pattern <- function(p) {
-				imagine <- learn(knowledge=kn, guess=w, reply=p)
-				return(1-length(imagine$fitting_only)/length(kn$fitting_only))
-			}
-			reductions <- sapply(patterns, one_pattern)
-			return(mean(reductions, na.rm=TRUE))
-		}
-		scores <- sapply(cand, estimate_reduction, cand=allowed, kn=knowledge)	
-	} else if(method=="entropy") {
+	} else if(method=="reply_entropy") {
 		# estimate entropy
-		estimate_entropy <- function(w, cand) {
-			patterns <- sapply(cand, function(chosen) reply(guess=w, ans=chosen))
-			prob <- as.vector(table(patterns))
-			prob <- prob / sum(prob)
+		estimate_reply_entropy <- function(w, allowed, kn) {
+			patterns <- sapply(allowed, function(chosen) reply(guess=w, ans=chosen))
+			patterns <- as.vector(table(patterns))
+			prob <- patterns / sum(patterns)
 			entr <- sum(-prob * log2(prob))
 			return(entr)
 		}
-		scores <- sapply(cand, estimate_entropy, cand=allowed)
+		scores <- sapply(cand, estimate_reply_entropy, allowed=allowed, kn=knowledge)	
+	} else if(method=="full_entropy") {
+		# estimate entropy
+		estimate_full_entropy <- function(w, allowed, kn) {
+			patterns <- sapply(allowed, function(chosen) reply(guess=w, ans=chosen))
+			patterns <- table(patterns)
+			nm_pat <- names(patterns)
+			freq_pat <- setNames(as.vector(patterns), nm_pat)
+			prob <- matrix(0, ncol=length(nm_pat), nrow=length(allowed))
+			dimnames(prob) <- list(allowed, nm_pat)	
+			for (p in nm_pat) {
+				imagine <- learn(knowledge=kn, guess=w, reply=p)
+				prob[intersect(allowed, imagine$fitting_only), p] <- freq_pat[p]
+			}
+			prob <- prob / sum(prob)
+			dimnames(prob) <- NULL
+			prob <- prob[prob>0]
+			entr <- sum(-prob * log2(prob))
+			return(entr)
+		}
+		scores <- sapply(cand, estimate_full_entropy, allowed=allowed, kn=knowledge)	
 	} else if(method=="contrasts") {
 		# contrast: pairwise non-intersecting letters
 		embed_contrast <- function(w1, w2) {
@@ -125,7 +139,7 @@ suggest_guess <- function(
 		ctr <- rowSums(ctr)
 		scores <- knowledge$wl_num[cand,] %*% ctr
 		scores <- setNames(as.vector(scores), rownames(scores))
-	}
+	} else stop("unknown method: ", method)
 	
 	# pick
 	scores <- sort(scores)

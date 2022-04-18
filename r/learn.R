@@ -54,7 +54,6 @@ learn <- function(knowledge, guess, reply) {
 	rownames(knowledge$A) <- NULL
 	
 	# update fitting_only
-	if(!is.matrix(knowledge$A)) browser()
 	cond_applied <- knowledge$wl_num %*% t(knowledge$A)
 	cond_fullfilled <- apply(cond_applied,1,function(y) all(y<=knowledge$rhs))
 	idx <- which(cond_fullfilled)

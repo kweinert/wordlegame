@@ -1,7 +1,7 @@
 Package: wordlegame
 Type: Package
 Title: Simulate & Analyse Wordle Games
-Version: 0.1.3
+Version: 0.1.4
 Date: 2022-04-18
 Author: Karsten Weinert
 Maintainer: Karsten Weinert <karsten.g.weinert@gmail.com>
