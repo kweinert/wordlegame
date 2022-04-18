@@ -64,6 +64,10 @@ suggest_guess(kn, num_guess=2, n=10)
 
 And so on.
 
+# Some Tricks
+
+## Popularity
+
 Many words from the word lists are rare words. It is plausible to assume that these are unlikely to be the solution. To estimate the popularity of words, the function `popularity` can be used:
 
 ```
@@ -73,6 +77,30 @@ popularity(c("fubar", "filar", "friar", "iftar", "flair"))
 ```
 
 Here we can see that 'flair' is by far the most popular word and thus a good candidate.
+
+The idea for the `popularity` function came from [Kework K. Kalustian](https://github.com/KewKalustian/wordle_cracker/blob/master/script.R) -- kudos.
+
+## Non-Strict Candidates
+
+Manchmal reduzieren die Rateversuche die zulässigen Worte auf relativ wenige, gleichzeitig recht ähnliche Worte. Hier ein Beispiel:
+
+```
+kn <- knowledge("en")
+kn <- learn(kn, "safer", "fffpf")
+kn <- learn(kn, "glide", "ttfft")
+```
+
+In this example, after two guesses, only 6 words are possible: glute, glume, gloze, 
+glebe, globe, glove. Now there is the possibility to choose one of these words and rely on luck. Or we can strategically choose a word that, while certainly not the solution, effectively limits the words allowed. The function `suggest_guess` has the parameter `fitting_only`. If this is `FALSE`, then non-permissible words are also suggested. This allows the second strategy to be implemented:
+
+```
+suggest_guess(kn, num_guess=3, n=10, fitting_only=FALSE)
+# [1] "cobza" "bloat" "vocab" "above" "tabun" "novum" "combs" "baton" "embox"
+# [10] "bokeh"
+kn <- learn(kn, "above", "fptft")
+# 1 fits: globe
+```
+
 
 
 

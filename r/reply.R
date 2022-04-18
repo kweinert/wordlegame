@@ -8,7 +8,7 @@
 #' @return character
 #' @export
 #' @references https://stackoverflow.com/a/71326031/216064
-reply <- function(guess, ans) {
+reply <- memoise::memoise(function(guess, ans) {
 	guess <- strsplit(guess, "")[[1]]
 	ans <- strsplit(ans, "")[[1]]
 	ret <- rep("f", 5)
@@ -28,5 +28,5 @@ reply <- function(guess, ans) {
 		}
 	}
 	return(paste(ret, collapse=""))
-}
+})
 

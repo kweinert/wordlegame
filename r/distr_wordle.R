@@ -8,6 +8,7 @@
 #' @return numeric, vector of numbers of guesses needed (or NA if not guessed in 6 or less tries)
 #' @export
 distr_wordle <- function(n, knowledge) {
+	
 	ans <- replicate(n, sim_wordle(knowledge, verbose=FALSE))
 	# ans <- table(ans, useNA="always")
 	return(ans)
