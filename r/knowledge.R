@@ -9,7 +9,9 @@
 #' @references de: https://raw.githubusercontent.com/SchulzKilian/GermanWordle/main/germandict.txt
 knowledge <- function(lang=c("en", "de", "en_short")) {
 	if(length(lang)>1) lang <- lang[1]
-	fn <- system.file(paste0("wordlists/wl_", substring(lang,1,2), ".txt"), package="wordle")
+	fn <- system.file(
+		paste0("wordlists/wl_", substring(lang,1,2), ".txt"), package="wordlegame"
+	)
 	wl <- suppressWarnings(readLines(fn))
 	if(grepl("_short$", lang)) wl <- sample(wl, 500)
 	wl_num <- embed_wordlist(wl)

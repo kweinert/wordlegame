@@ -66,16 +66,15 @@ suggest_guess <- function(
 	}
 	
 	# first guess
-	# if(num_guess==1) {
-		# scores <- c(
-			# "skran", "skean", "togae", "spean", "shone", "etnas", "spire", 
-			# "auris", "tines", "cries", "sorda", "ables", "safer", "maise", 
-			# "lyres", "teals", "rones"
-		# )
-		# scores <- sample(scores, max(c(n,3)))
-		# scores <- setNames(rep(0.95, length(scores)), scores)
-	# } else 
-	if(method=="reductions") {
+	if(num_guess==1) {
+		scores <- c(
+			"skran", "skean", "togae", "spean", "shone", "etnas", "spire", 
+			"auris", "tines", "cries", "sorda", "ables", "safer", "maise", 
+			"lyres", "teals", "rones"
+		)
+		scores <- sample(scores, max(c(n,3)))
+		scores <- setNames(rep(0.95, length(scores)), scores)
+	} else if(method=="reductions") {
 		# average reduction
 		allowed <- knowledge$fitting_only
 		if(length(allowed)>sample_size) allowed <- sample(allowed, sample_size)
