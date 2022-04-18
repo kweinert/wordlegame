@@ -1,2 +1,2 @@
-# wordle_game
-Help Playing Wordle
+# wordle
+Analyse Wordle Game.

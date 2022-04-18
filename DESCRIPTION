@@ -1,0 +1,12 @@
+Package: sim_wordle
+Type: Package
+Title: Simulate & Analyse Wordle Games
+Version: 0.1
+Date: 2022-04-18
+Author: Karsten Weinert
+Maintainer: Karsten Weinert <karsten.g.weinert@gmail.com>
+Description: Simulate & Analyse Wordle Games
+Imports: 
+License: GPL 3.0
+LazyLoad: yes
+RoxygenNote: 7.1.1
