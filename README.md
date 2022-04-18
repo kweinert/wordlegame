@@ -82,7 +82,7 @@ The idea for the `popularity` function came from [Kework K. Kalustian](https://g
 
 ## Non-Strict Candidates
 
-Manchmal reduzieren die Rateversuche die zulässigen Worte auf relativ wenige, gleichzeitig recht ähnliche Worte. Hier ein Beispiel:
+Sometimes the guessing attempts reduce the permissible words to relatively few words that are at the same time quite similar. Here is an example:
 
 ```
 kn <- knowledge("en")
