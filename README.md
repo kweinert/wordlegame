@@ -34,7 +34,7 @@ kn <- knowledge("en") # 'de' is also supported
 
 The wordlists of permissible words are taken from github ([en](https://raw.githubusercontent.com/tabatkins/wordle-list/main/words), [de](https://raw.githubusercontent.com/SchulzKilian/GermanWordle/main/germandict.txt)).
 
-Now you can use this object to output one or more suggestions for your first guess attempt. For this purpose, there is the function `suggest_guess`, which takes as arguments the knowledge object, the current round (1..6) and the number of words to be output:
+Now you can use this object to output one or more suggestions for your first guess attempt. For this purpose, there is the function `suggest_guess`, which takes as arguments the knowledge object, the current round (between 1 and 6) and the number of words to be output:
 
 ```
 suggest_guess(kn, num_guess=1, n=10)
@@ -44,9 +44,9 @@ suggest_guess(kn, num_guess=1, n=10)
 
 Wordle gives you feedback on your guess attempt. This feedback can be passed on to the knowledge object. Wordle feedback uses colours that need to be translated into letter codes. There are three codes:
 
-    - green means: the letter is in the correct position. This is to be coded as "t" (true).
-	- beige means: the letter occurs, but in a different position. This is to be coded as "p" (position).
-	- grey means: the letter does not occur. This is to be coded as "f" (false).
+- green means: the letter is in the correct position. This is to be coded as "t" (true).
+- beige means: the letter occurs, but in a different position. This is to be coded as "p" (position).
+- grey means: the letter does not occur. This is to be coded as "f" (false).
 	
 So if your guess attempt is e.g. "safer" and the feedback is "grey, beige, beige, green, beige", then this translates into:
 
