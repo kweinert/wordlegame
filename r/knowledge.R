@@ -9,8 +9,8 @@
 #' @references de: https://raw.githubusercontent.com/SchulzKilian/GermanWordle/main/germandict.txt
 knowledge <- function(lang=c("en", "de", "en_short")) {
 	if(length(lang)>1) lang <- lang[1]
-	fn <- system.file(paste0("wordlists/wl_", substring(lang,1,2), ".rda"), package="wordle")
-	wl <- readRDS(fn)
+	fn <- system.file(paste0("wordlists/wl_", substring(lang,1,2), ".txt"), package="wordle")
+	wl <- readLines(fn)
 	if(grepl("_short$", lang)) wl <- sample(wl, 500)
 	wl_num <- embed_wordlist(wl)
 	agg_letter <- diag(26)
