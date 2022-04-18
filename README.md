@@ -64,9 +64,9 @@ suggest_guess(kn, num_guess=2, n=10)
 
 And so on.
 
-# Some Tricks
+## Some Tricks
 
-## Popularity
+### Popularity
 
 Many words from the word lists are rare words. It is plausible to assume that these are unlikely to be the solution. To estimate the popularity of words, the function `popularity` can be used:
 
@@ -80,7 +80,7 @@ Here we can see that 'flair' is by far the most popular word and thus a good can
 
 The idea for the `popularity` function came from [Kework K. Kalustian](https://github.com/KewKalustian/wordle_cracker/blob/master/script.R) -- kudos.
 
-## Non-Strict Candidates
+### Non-Strict Candidates
 
 Sometimes the guessing attempts reduce the permissible words to relatively few words that are at the same time quite similar. Here is an example:
 
