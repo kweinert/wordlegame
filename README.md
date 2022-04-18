@@ -36,5 +36,24 @@ Now you can use this object to output one or more suggestions for your first gue
 suggest_guess(kn, num_guess=1, n=10)
 ```
 
+Wordle gives you feedback on your guess attempt. This feedback can be passed on to the knowledge object. Wordle feedback uses colours that need to be translated into letter codes. There are three codes:
+
+    - green means: the letter is in the correct position. This is to be coded as "t" (true).
+	- beige means: the letter occurs, but in a different position. This is to be coded as "p" (position).
+	- grey means: the letter does not occur. This is to be coded as "f" (false).
+	
+So if your guess attempt is e.g. "safer" and the feedback is "grey, beige, beige, green, beige", then this translates into:
+
+```
+kn <- learn(kn, "safer", "fpptf")
+```
+
+and you can use `suggest_guess` again to get new suggestions:
+
+```
+suggest_guess(kn, num_guess=2, n=10)
+```
+
+And so on.
 
 

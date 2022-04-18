@@ -22,7 +22,8 @@ knowledge <- function(lang=c("en", "de", "en_short")) {
 	single_only <- names(single_only[single_only])
 	fitting_only <- rownames(wl_num)
 	obj <- list(
-		wl_num=wl_num, single_only=single_only, # independent from guesses
+		wl_num=wl_num, single_only=single_only, # independent from guesses 
+		lang=substring(lang,1,2), 
 		fitting_only=fitting_only, # reduces with guesses
 		A=NULL, rhs=NULL # conditions; increase with guesses
 	)
