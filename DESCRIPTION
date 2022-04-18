@@ -1,4 +1,4 @@
-Package: sim_wordle
+Package: wordle_game
 Type: Package
 Title: Simulate & Analyse Wordle Games
 Version: 0.1
