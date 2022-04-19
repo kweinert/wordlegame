@@ -13,7 +13,7 @@ knowledge <- function(lang=c("en", "de", "en_short")) {
 		paste0("wordlists/wl_", substring(lang,1,2), ".txt"), package="wordlegame"
 	)
 	wl <- suppressWarnings(readLines(fn))
-	if(grepl("_short$", lang)) wl <- sample(wl, 500)
+	if(grepl("_short$", lang)) wl <- c("taras", sample(wl, 499))
 	wl_num <- embed_wordlist(wl)
 	agg_letter <- diag(26)
 	agg_letter <- rbind(agg_letter, agg_letter, agg_letter, agg_letter, agg_letter)

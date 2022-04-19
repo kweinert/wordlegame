@@ -10,7 +10,8 @@
 #' @param fitting_only	logical, use only fitting words as candidates (TRUE) or 
 #'                      use single-letter-only words (FALSE) or 
 #'						decide by num_guess (NA, default)
-#' @param method	character, either one of "entropy" (default), "contrasts", or "reductions"
+#' @param method	character, either one of "reply_entropy" (default), "contrasts",  
+#'                  "full_entropy", or "prob"
 #' @param sample_size numeric (default=30), maximum number of candidates to consider
 #' @param with_scores	logical, return words only (FALSE, default), or include scores
 #' @param verbose	logical, print out diagnostic messages (default TRUE)
@@ -18,11 +19,11 @@
 #' @export
 suggest_guess <- function(
 	knowledge, num_guess, n=1, fitting_only=NA,
-	method=c("prob", "full_entropy", "contrasts", "reductions"),
+	method=c("prob", "full_entropy", "contrasts", "reply_entropy"),
 	sample_size=500, 
 	with_scores=FALSE,
 	verbose=TRUE) {
-	if(length(method)>1) method <- method[2]
+	if(length(method)>1) method <- method[1]
 
 	# last guess
 	if(num_guess==6) {
@@ -81,7 +82,7 @@ suggest_guess <- function(
 	else
 		allowed
 	if(!is.na(sample_size) && length(cand)>sample_size) 
-			cand <- sample(cand, sample_size) # and at most sample_size
+		cand <- sample(cand, sample_size) # and at most sample_size
 
 	if(method=="prob") {
 		# most likely green answer

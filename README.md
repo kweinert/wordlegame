@@ -127,3 +127,16 @@ Here is the result of 200 simulations for each method except 'full_entropy', whi
 In my opinion there is much room for improvement. Unfortunately, I no longer have the time.
 
 To invent your own strategies, you need to fork the repository and change the function `suggest_guess`.
+
+## Further Readings
+
+Searching Twitter for "#rstats" and "wordle" reveals a lot of other information on the subject.
+For example, there are 
+- [this](https://olyerickson.shinyapps.io/wordler/
+) and [this](https://mohang.shinyapps.io/wordle/
+) shiny app, 
+- [this](https://github.com/DavidASmith/wordler) and [this](https://github.com/coolbutuseless/wordle) package,
+- [this](https://github.com/alicetprojects/wordle_tool) and
+[this](https://blog.ephorie.de/wordle-solve-wordle-with-r#more-5706) blogpost, or
+- [this](https://www.youtube.com/watch?v=YEoCBnQwdzM) and [this](https://www.youtube.com/watch?v=v68zYyaEmEA) video.
+
