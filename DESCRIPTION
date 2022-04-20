@@ -1,12 +1,11 @@
 Package: wordlegame
 Type: Package
 Title: Simulate & Analyse Wordle Games
-Version: 0.1.4
-Date: 2022-04-18
+Version: 0.1.5
+Date: 2022-04-20
 Author: Karsten Weinert
 Maintainer: Karsten Weinert <karsten.g.weinert@gmail.com>
 Description: Simulate & Analyse Wordle Games
-Imports: memoise, mcreplicate
 License: GPL 3.0
 LazyLoad: yes
 RoxygenNote: 7.1.1
