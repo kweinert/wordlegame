@@ -8,13 +8,13 @@
 #' @references https://github.com/KewKalustian/wordle_cracker/blob/master/script.R
 #' @export
 popularity <- function(fits) {
-	x <- sprintf("https://www.bing.com/search?q=%s", fits) |> 
-		lapply(rvest::read_html) |>
-		lapply(rvest::html_nodes, css=".sb_count") |>
-		lapply(rvest::html_text) |>
-		lapply(function(s) strsplit(s, " ")[[1]][[1]])
-	x <- gsub("\\.", "", x) |>
-		as.numeric()
+	x <- sprintf("https://www.bing.com/search?q=%s", fits)
+	x <- lapply(x, rvest::read_html)
+	x <- lapply(x, rvest::html_nodes, css=".sb_count")
+	x <- lapply(x, rvest::html_text)
+	x <- lapply(x, function(s) strsplit(s, " ")[[1]][[1]])
+	x <- gsub("\\.", "", x)
+	x <- as.numeric(x)
 	names(x) <- fits
 	return(x)
 }
